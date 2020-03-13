@@ -3,13 +3,13 @@ import './Roster.css'
 import Image from '../Image/Image'
 import DetailsImg from '../DetailsImg/DetailsImg';
 
+
 class Roster extends React.Component {
+    currentInfo = {};
     constructor(props) {
         super(props);
 
         this.state = {
-            bio: [],
-            name: [],
             imgUrl: [],
             isClick: false
         }
@@ -22,30 +22,29 @@ class Roster extends React.Component {
             .then(res => res.json())
             .then(res=> {
                 let arrayWithUrls = res.map(x => x.url);
-                let arrayWithBios = res.map(x => x.bio);
-                let arrayWithNames = res.map(x => x.name);
 
                 this.setState({
-                    bio: arrayWithBios,
-                    name: arrayWithNames,
                     imgUrl: arrayWithUrls
                 })
             });
     }
 
     details(e) {
-        this.setState({id: e.target.id, isClick: true})
+        fetch('http://localhost:9999/character/' + e.target.id)
+            .then(res => res.json())
+            .then(res => {
+                this.setState({currentInfo: res, isClick: true})
+            });
     }
 
     render() {
-        let id = this.state.id;
-        let {imgUrl, name, bio, isClick} = this.state;
+        let {imgUrl, currentInfo, isClick} = this.state;
 
         if(!isClick) {
             return (
                 <Fragment>
                     <div className="Roster-wrapper">
-                        {imgUrl.map((x,i) => {
+                        {imgUrl.map((x, i) => {
                             return <Image className='Roster-img' url={x} id={i} key={x} onClick={this.details}></Image>
                         })}
                     </div>
@@ -55,11 +54,11 @@ class Roster extends React.Component {
         return (
             <Fragment>
                 <div className="Roster-wrapper">
-                    {imgUrl.map((x,i) => {
+                    {imgUrl.map((x, i) => {
                         return <Image className='Roster-img' url={x} id={i} key={x} onClick={this.details}></Image>
                     })}
                 </div>
-                <DetailsImg url={imgUrl[id]} name={name[id]} bio={bio[id]}/>
+                <DetailsImg {...currentInfo}/>
             </Fragment>
         );
         
