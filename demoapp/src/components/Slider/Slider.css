@@ -1,0 +1,23 @@
+.Slider-wrapper {
+    display: inline-block;
+    position: relative;
+}
+.Slider-img {
+    max-height: 500px;
+}
+.Slider-button{
+    position: absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width: 50px;
+    height: 50px;
+}
+
+.case-left {
+    left: 0;
+}
+
+
+.case-right {
+    right: 0;
+}

@@ -1,0 +1,9 @@
+.Roster-wrapper {
+    display: inline-block;
+    position: relative;
+}
+
+.Roster-img {
+    max-height: 200px;
+    margin: 1em;
+}
